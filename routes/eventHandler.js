@@ -3,6 +3,10 @@ import { LocalStorage } from "node-localstorage";
 import Jwt from "jsonwebtoken";
 let tokens ={}
 
+const addCatogoriesToArray= ()=>{
+  return Products.map(p => categories.push(p.category))
+}
+
 const localStorage = new LocalStorage('./scratch');
 const categories = []
 export const productsHandler = (req, res) => {
@@ -78,7 +82,7 @@ export const deleteProduct = (req, res) => {
 };
 export const deleteCategory = (req, res)=>{
   if(!categories.length){
-    Products.map(p => categories.push(p.category))
+    addCatogoriesToArray()
   }
   if(!tokens.edit){
     return res.send("PLease login first!");
@@ -165,14 +169,14 @@ export const login = (req, res) => {
 
 
 export const categoriesHandler = (req , res)=>{
-  Products.map(p => categories.push(p.category))
+  addCatogoriesToArray()
   console.log(categories)
   res.send(categories);
   res.end()
 }
 export const singleCategory = (req , res)=>{
   try {
-    Products.map(p => categories.push(p.category))
+    addCatogoriesToArray()
     let id = req.params.categoryId;
     const single = categories.find((product) => product.id === Number(id));
     if (!single) {
